@@ -1,0 +1,153 @@
+TIME LORD BOT — BUILD 16 ARTRON ECOLOGY
+
+DESIGN
+======
+Meditation does NOT generate personal Artron.
+
+Artron now has a gameplay loop:
+  EXPLORE -> HARVEST TEMPORAL RESIDUE -> REFINE IN WORKSHOP -> USE CELLS
+and a ship-support loop:
+  STORE ARTRON IN TARDIS -> TRANSFER / MEDICAL INFUSION -> PERSONAL RESERVE
+
+PLAYER COMMANDS
+===============
+/artron
+/artron status
+/artron transfer <amount>
+/artron medical <amount>
+/artron refine [number of cells]
+/artron rest
+/artron help
+
+TRANSFER
+========
+/artron transfer 10
+Draws from the current TARDIS flight state's stored Artron.
+Time Lord/Gallifreyan efficiency: 90%.
+Human/other efficiency: 70%.
+
+MEDICAL INFUSION
+================
+/artron medical 10
+Requires Medical Bay.
+Uses a Medicine check.
+
+Successful infusion:
+  Gallifreyan: 95%
+  Human/other: 90%
+
+Failed (non-critical) coupling:
+  Gallifreyan: 70%
+  Human/other: 60%
+
+This is the preferred recovery route for Human characters.
+
+TEMPORAL HARVEST NODES
+======================
+World object action:
+  activate ~artronharvest id:rift01,name:Temporal Fissure,yield:2,cooldown:300,difficulty:35
+
+Optional skill:
+  activate ~artronharvest id:crystal01,name:Chronon Crystal,yield:2,cooldown:600,difficulty:45,skill:Engineering
+
+Parameters:
+  id          unique persistent node id
+  name        display name
+  yield       normal residue yield (1-10)
+  cooldown    node cooldown for each player, minimum 60 sec
+  difficulty  skill check difficulty
+  skill       defaults to Temporal Science
+
+Harvested material:
+  Temporal Residue
+
+Failed harvests can cause:
+  Artron Static
+
+REFINING
+========
+Two Temporal Residue -> one Refined Artron Cell.
+Requires Workshop.
+
+Player:
+  /artron refine
+  /artron refine 3
+
+World object:
+  activate ~artronrefine amount:1
+
+Engineering critical success creates one bonus cell.
+Critical failure destroys one residue.
+
+REFINED ARTRON CELL
+===================
+Use through existing inventory item use mechanics.
+Each cell can restore up to 35 personal Artron.
+
+MEDICAL BAY INFUSER OBJECT
+==========================
+  activate ~artroninfuse amount:10
+
+This performs the Medical Bay transfer directly.
+
+EMERGENCY REST
+==============
+/artron rest
+or:
+  activate ~artronrest
+
+Requires Zero Room or Cloister Room.
+15 minute cooldown.
+Gallifreyans: up to 6 Artron.
+Humans/other: up to 3 Artron.
+Recovery is reduced when the player is already above emergency levels.
+
+This exists to prevent a player getting completely stranded, not as the main farm.
+
+ENCOUNTER RESIDUE
+=================
+Resolved encounters can now drop Temporal Residue.
+Base chance: 15%.
+Temporal/technological species have a higher chance, including Daleks,
+Weeping Angels, Time Lords/Gallifreyans, Autons and Cyber species.
+
+CLOISTER ROOM CHANGE
+====================
+The old unlimited +20 personal Artron from using the Cloister Room has been removed.
+It still reduces Paradox.
+This prevents the new resource economy from being bypassed by repeatedly using one room.
+
+EXAMPLE FOR CHARLIE
+===================
+If Charlie has:
+  Personal: 3
+  Axiom/TARDIS stored: 70
+
+He can use:
+  /artron medical 10
+
+On a successful Human Medicine coupling, approximately:
+  Stored: 70 -> 60
+  Personal: 3 -> 12
+depending on cap/rounding.
+
+Or:
+  /artron transfer 10
+for a less efficient direct Human transfer:
+  Stored: 70 -> 60
+  Personal: 3 -> 10
+
+WORLD-BUILDING LOOP
+===================
+Scatter temporal harvesting nodes in places where the fiction supports them:
+- damaged time engines
+- Vortex scars
+- chronon crystal deposits
+- abandoned Gallifreyan machinery
+- unstable portals
+- paradox sites
+- Weeping Angel nests
+- Dalek time technology
+- wrecked temporal vessels
+
+The resource should be available, but not free.
